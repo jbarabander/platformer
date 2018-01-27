@@ -44,7 +44,7 @@ function Player:doubleJump()
 end
 
 function Player:reAddJumpHeight()
-    if not self.hasDoubleJumped then
+    if self.hasDoubleJumped then
         self.y_velocity = self.doubleJumpHeight
     else
         self.y_velocity = self.jump_height
