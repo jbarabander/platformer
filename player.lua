@@ -2,21 +2,21 @@ Object = require "classic"
 math = require "math"
 Player = Object:extend()
 
-local MAX_NUM_OF_JUMPING_FRAMES = 20
+local MAX_NUM_OF_JUMPING_FRAMES = 15
 
 
 function Player:new()
 	self.speed = 200
 	self.y_velocity = 0 
 	self.jump_height = -300
-	self.gravity = -900
+	self.gravity = -1000
     self.x = love.graphics.getWidth() / 2
 	self.y = love.graphics.getHeight() / 2 - 50
     self.ground = self.y
     self.size = 50
     self.jumpingFrames = 0
     self.hasDoubleJumped = false
-    self.doubleJumpHeight = self.jump_height / 2
+    self.doubleJumpHeight = self.jump_height * 0.9
 end
 
 function Player:draw()
@@ -44,9 +44,7 @@ function Player:doubleJump()
 end
 
 function Player:reAddJumpHeight()
-    if self.hasDoubleJumped then
-        self.y_velocity = self.doubleJumpHeight
-    else
+    if not self.hasDoubleJumped then
         self.y_velocity = self.jump_height
     end
 end

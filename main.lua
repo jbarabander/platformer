@@ -8,7 +8,7 @@ function love.load()
     require "player"
     player = Player()
 end
- 
+
 function love.update(dt)
     player:update(dt)
 end
