@@ -9,10 +9,10 @@ local MAX_NUM_OF_JUMPING_FRAMES = 15
 
 function Player:new()
     self.type = 'player'
-	self.speed = 200
-	self.yVelocity = 0 
-	self.jumpHeight = -300
-	self.gravity = -1000
+    self.speed = 200
+    self.yVelocity = 0 
+    self.jumpHeight = -300
+    self.gravity = -1000
     self.x = love.graphics.getWidth() / 2
 	self.y = love.graphics.getHeight() / 2 - 50
     self.size = 50
