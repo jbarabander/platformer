@@ -14,7 +14,7 @@ function Player:new()
     self.jumpHeight = -300
     self.gravity = -1000
     self.x = love.graphics.getWidth() / 2
-	self.y = love.graphics.getHeight() / 2 - 50
+    self.y = love.graphics.getHeight() / 2 - 50
     self.size = 50
     self.h = self.size
     self.w = self.size
@@ -68,16 +68,16 @@ function Player:reAddJumpHeight()
 end
 
 function Player:jumpingStatus(dt)
-	if love.keyboard.isDown('space') then
+    if love.keyboard.isDown('space') then
         if self.yVelocity == 0 or (self.jumpingFrames < MAX_NUM_OF_JUMPING_FRAMES and self.jumpHeldDown) then
-		    self:reAddJumpHeight()
+            self:reAddJumpHeight()
             self.jumpingFrames = self.jumpingFrames + 1
         end
-	end 
-	if self.yVelocity ~= 0 then
-		self.y = self.y + self.yVelocity * dt
-		self.yVelocity = self.yVelocity - self.gravity * dt
-	end
+    end 
+    if self.yVelocity ~= 0 then
+        self.y = self.y + self.yVelocity * dt
+        self.yVelocity = self.yVelocity - self.gravity * dt
+    end
 end
 
 function Player:checkCollision()
@@ -94,14 +94,14 @@ end
 
 function Player:update(dt)
     if love.keyboard.isDown('d') then
-		if self.x < (love.graphics.getWidth() - self.size) then
-			self.x = self.x + (self.speed * dt)
-		end
-	elseif love.keyboard.isDown('a') then
-		if self.x > 0 then 
-			self.x = self.x - (self.speed * dt)
-		end
-	end
+        if self.x < (love.graphics.getWidth() - self.size) then
+            self.x = self.x + (self.speed * dt)
+        end
+    elseif love.keyboard.isDown('a') then
+        if self.x > 0 then 
+            self.x = self.x - (self.speed * dt)
+        end
+    end
     self:jumpingStatus(dt)
     -- collision detection
     self:checkCollision()
