@@ -34,6 +34,7 @@ function Player:draw()
     end
     love.graphics.rectangle("line", self.x, self.y, self.size, self.size)
     love.graphics.setColor(255, 255, 255, 255)
+    -- debugging info
     love.graphics.print("actualX: "..actualX, 12, 12)
     love.graphics.print("actualY: "..actualY, 12, 26)
     love.graphics.print("y velocity: "..self.yVelocity, 12, 40)
