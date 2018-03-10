@@ -5,8 +5,7 @@ local world = require "world"
 Player = Object:extend()
 
 local MAX_NUM_OF_JUMPING_FRAMES = 15
-
-
+jumpCalled = "false"
 function Player:new()
     self.type = 'player'
     self.speed = 200
@@ -27,17 +26,18 @@ function Player:new()
 end
 
 function Player:draw()
+    local hasJumped
+    if self.hasJumped then
+        hasJumped = "true"
+    else 
+        hasJumped = "false"
+    end
     love.graphics.rectangle("line", self.x, self.y, self.size, self.size)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.print("actualX: "..actualX, 12, 12)
     love.graphics.print("actualY: "..actualY, 12, 26)
-end
-
-function Player:canStillJump()
-    return (
-        self.yVelocity == 0 or 
-        self.jumpingFrames < MAX_NUM_OF_JUMPING_FRAMES
-    )
+    love.graphics.print("y velocity: "..self.yVelocity, 12, 40)
+    love.graphics.print("jump called: "..hasJumped, 12, 54)
 end
 
 function Player:clearJump()
@@ -48,7 +48,7 @@ function Player:clearJump()
 end
 
 function Player:jump()
-    if self.yVelocity == 0 then
+    if not self.hasJumped then
         self.hasJumped = true
         self.jumpHeldDown = true
         self.yVelocity = self.jumpHeight
@@ -69,24 +69,25 @@ end
 
 function Player:jumpingStatus(dt)
     if love.keyboard.isDown('space') then
-        if self.yVelocity == 0 or (self.jumpingFrames < MAX_NUM_OF_JUMPING_FRAMES and self.jumpHeldDown) then
+        if not self.hasJumped or (self.jumpingFrames < MAX_NUM_OF_JUMPING_FRAMES and self.jumpHeldDown) then
             self:reAddJumpHeight()
             self.jumpingFrames = self.jumpingFrames + 1
         end
     end 
     if self.yVelocity ~= 0 then
         self.y = self.y + self.yVelocity * dt
-        self.yVelocity = self.yVelocity - self.gravity * dt
     end
 end
 
 function Player:checkCollision()
     actualX, actualY, cols, len = world:move(self, self.x, self.y)
+    local oldX = self.x
+    local oldY = self.y
     self.x = actualX
     self.y = actualY
     for i=1,len do
         local other = cols[i].other
-        if other.isFloor then
+        if (other.isFloor or other.isPlatform) and oldY ~= self.y then
             self:clearJump()
         end
     end
@@ -104,5 +105,6 @@ function Player:update(dt)
     end
     self:jumpingStatus(dt)
     -- collision detection
-    self:checkCollision()
+    self:checkCollision(dt)
+    self.yVelocity = self.yVelocity - self.gravity * dt
 end

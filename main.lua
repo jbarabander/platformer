@@ -1,14 +1,15 @@
-platform = {}
- 
+
 function love.load()
-	platform.w = love.graphics.getWidth()
-	platform.h = love.graphics.getHeight()
-	platform.x = 0
-	platform.y = platform.h / 2
+
     require "player"
     player = Player()
 	require "floor"
 	floor = Floor()
+	require "platform"
+	platforms = {
+		Platform(180, 180),
+		Platform(160, 250)
+	}
 end
 
 function love.keypressed(key)
@@ -34,4 +35,7 @@ end
 function love.draw()
 	floor:draw()
     player:draw()
+	for k,v in pairs(platforms) do
+		v:draw()
+	end
 end
