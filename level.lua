@@ -2,7 +2,7 @@ require "goal"
 require "platform"
 Object = require "classic"
 
-Level = Object:extend()
+local Level = Object:extend()
 
 function Level:new(levelTable)
     self.type = "level"
@@ -31,3 +31,5 @@ function Level:draw()
     end
     self.goal:draw()
 end
+
+return Level
