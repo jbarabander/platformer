@@ -8,10 +8,10 @@ function Level:new(levelTable)
     self.type = "level"
     self.internalTable = levelTable
     self.platforms = {}
-    self:setUpLevel()
+    self:setUp()
 end
 
-function Level:setUpLevel()
+function Level:setUp()
     length = #self.internalTable
     for i, v in pairs(self.internalTable) do
         self.platforms[i] = Platform(v.x, v.y)
