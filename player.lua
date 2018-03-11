@@ -64,6 +64,8 @@ end
 
 function Player:reAddJumpHeight()
     if not self.hasDoubleJumped then
+        -- ick this hacky I will look into why I need this tomorrow
+        self.hasJumped = true
         self.yVelocity = self.jumpHeight
     end
 end
