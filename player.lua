@@ -3,9 +3,16 @@ local math = require "math"
 local world = require "world"
 
 Player = Object:extend()
-
 local MAX_NUM_OF_JUMPING_FRAMES = 15
-jumpCalled = "false"
+
+local playerFilter = function(item, other)
+    if other.isFloor or other.isPlatform then
+        return "slide"
+    elseif other.isGoal then
+        return "cross"
+    end
+end
+
 function Player:new()
     self.type = 'player'
     self.speed = 200
@@ -35,8 +42,6 @@ function Player:draw()
     love.graphics.rectangle("line", self.x, self.y, self.size, self.size)
     love.graphics.setColor(255, 255, 255, 255)
     -- debugging info
-    love.graphics.print("actualX: "..actualX, 12, 12)
-    love.graphics.print("actualY: "..actualY, 12, 26)
     love.graphics.print("y velocity: "..self.yVelocity, 12, 40)
     love.graphics.print("jump called: "..hasJumped, 12, 54)
 end
@@ -83,7 +88,7 @@ function Player:jumpingStatus(dt)
 end
 
 function Player:checkCollision()
-    actualX, actualY, cols, len = world:move(self, self.x, self.y)
+    local actualX, actualY, cols, len = world:move(self, self.x, self.y)
     local oldX = self.x
     local oldY = self.y
     self.x = actualX
@@ -92,6 +97,8 @@ function Player:checkCollision()
         local other = cols[i].other
         if (other.isFloor or other.isPlatform) and oldY ~= self.y then
             self:clearJump()
+        elseif other.isGoal then
+            other:setPlayerHasReached(true)
         end
     end
 end

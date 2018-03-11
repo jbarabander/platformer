@@ -10,6 +10,8 @@ function love.load()
 		Platform(180, 180),
 		Platform(160, 250)
 	}
+	require "goal"
+	goal = Goal(210, 80)
 end
 
 function love.keypressed(key)
@@ -35,6 +37,7 @@ end
 function love.draw()
 	floor:draw()
     player:draw()
+	goal:draw()
 	for k,v in pairs(platforms) do
 		v:draw()
 	end
