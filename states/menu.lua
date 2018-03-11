@@ -7,7 +7,8 @@ local limit
 local y
 local rectX
 local index = 0
-
+local titleFont
+local optionFont
 -- local options = {
 --     {title="Start Game", state=LevelState({
 -- 		{x=120, y=180},
@@ -16,7 +17,15 @@ local index = 0
 --     })}
 -- }
 
+function menu:enter()
+    titleFont = love.graphics.newFont(24)
+    optionFont = love.graphics.newFont(12)
+end
+
 function menu:draw()
+    love.graphics.setFont(titleFont)
+    love.graphics.printf('Platformer!', 0, 30, limit, "center")
+    love.graphics.setFont(optionFont)
     love.graphics.printf("Start Game", 0, y, limit, "center")
     love.graphics.printf("Quit", 0, y + 30, limit, "center")
     
@@ -24,7 +33,7 @@ function menu:draw()
     local fontHeight = font:getAscent() + font:getDescent()
     local rectHeight = fontHeight + 20
     local rectY = y + (30 * index) - fontHeight / 2
-    love.graphics.rectangle("line", rectX - 150, rectY, 300, rectHeight)
+    love.graphics.rectangle("line", rectX - 100, rectY, 200, rectHeight)
 
 end
 
