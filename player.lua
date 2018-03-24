@@ -13,14 +13,14 @@ local playerFilter = function(item, other)
     end
 end
 
-function Player:new()
+function Player:new(x, y)
     self.type = 'player'
     self.speed = 200
     self.yVelocity = 0 
     self.jumpHeight = -300
     self.gravity = -1000
-    self.x = love.graphics.getWidth() / 2
-    self.y = love.graphics.getHeight() / 2 - 50
+    self.x = x
+    self.y = y
     self.size = 50
     self.h = self.size
     self.w = self.size
@@ -34,6 +34,7 @@ end
 
 function Player:clear()
     world:remove(self)
+    self:clearJump()
 end
 
 function Player:draw()

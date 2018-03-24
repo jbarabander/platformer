@@ -15,7 +15,7 @@ function Level:setUp()
     length = #self.internalTable
     for i, v in pairs(self.internalTable) do
         self.platforms[i] = Platform(v.x, v.y)
-        if k == 0 then
+        if k == 1 then
             self.startingPlatform = self.platforms[i]
         end
         if i == length then

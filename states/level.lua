@@ -11,11 +11,11 @@ end
 
 function LevelState:enter()
     require "player"
-    self.player = Player()
 	require "floor"
 	self.floor = Floor()
 	local Level = require "level"
 	self.level = Level(self.internalTable)
+	self.player = Player(self.level.platforms[1].x, self.level.platforms[1].y)
 end
 
 function LevelState:keypressed(key)
@@ -43,9 +43,9 @@ end
 function LevelState:update(dt)
     self.player:update(dt)
 	if self.level.goal.playerHasReached and self.nextState then
+		GameState.switch(self.nextState)
 		self.player:clear()
 		self.level:clear()
-		GameState.switch(self.nextState)
 	end
 end
 
