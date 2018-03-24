@@ -4,8 +4,9 @@ local GameState = require "gamestate"
 
 local LevelState = Object:extend()
 
-function LevelState:new(levelTable)
+function LevelState:new(levelTable, nextState)
     self.internalTable = levelTable
+	self.nextState = nextState
 end
 
 function LevelState:enter()
@@ -41,6 +42,11 @@ end
 
 function LevelState:update(dt)
     self.player:update(dt)
+	if self.level.goal.playerHasReached and self.nextState then
+		self.player:clear()
+		self.level:clear()
+		GameState.switch(self.nextState)
+	end
 end
 
 return LevelState

@@ -12,6 +12,10 @@ function Platform:new(x, y)
     world:add(self, self.x, self.y, self.w, self.h)
 end
 
+function Platform:clear()
+	world:remove(self)
+end
+
 function Platform:draw()
     love.graphics.setColor(255, 255, 255)
 	love.graphics.rectangle('fill', self.x, self.y, self.w, self.h)

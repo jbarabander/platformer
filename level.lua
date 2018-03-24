@@ -32,4 +32,11 @@ function Level:draw()
     self.goal:draw()
 end
 
+function Level:clear()
+    for i, v in pairs(self.platforms) do
+        v:clear()
+    end   
+end
+
+
 return Level

@@ -32,6 +32,10 @@ function Player:new()
     world:add(self, self.x, self.y, self.w, self.h)
 end
 
+function Player:clear()
+    world:remove(self)
+end
+
 function Player:draw()
     local hasJumped
     if self.hasJumped then

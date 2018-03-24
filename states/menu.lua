@@ -1,5 +1,5 @@
 local Gamestate = require "gamestate"
-local LevelState = require "states.level"
+local level1 = require "states.level1"
 local math = require "math"
 
 local menu = {}
@@ -9,13 +9,6 @@ local rectX
 local index = 0
 local titleFont
 local optionFont
--- local options = {
---     {title="Start Game", state=LevelState({
--- 		{x=120, y=180},
--- 		{x=160, y=250},
--- 		{x=240, y=170}
---     })}
--- }
 
 function menu:enter()
     titleFont = love.graphics.newFont(24)
@@ -54,13 +47,7 @@ end
 function menu:keyreleased(key, code)
     if key == 'return' then
         if index == 0 then
-
-            local level = LevelState({
-		        {x=120, y=180},
-		        {x=160, y=250},
-		        {x=240, y=170}
-            })
-            Gamestate.switch(level)
+            Gamestate.switch(level1)
         elseif index == 1 then
             love.event.quit()
         end
