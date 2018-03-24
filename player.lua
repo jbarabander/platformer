@@ -100,7 +100,7 @@ function Player:checkCollision()
     self.y = actualY
     for i=1,len do
         local other = cols[i].other
-        if (other.isFloor or other.isPlatform) and oldY ~= self.y then
+        if (other.isFloor or other.isPlatform) and self.y < oldY then
             self:clearJump()
         elseif other.isGoal then
             other:setPlayerHasReached(true)
