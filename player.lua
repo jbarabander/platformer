@@ -21,9 +21,9 @@ function Player:new(x, y)
     self.yVelocity = 0 
     self.jumpHeight = -300
     self.gravity = -1000
-    self.x = x
-    self.y = y
     self.size = 50
+    self.x = x
+    self.y = y - self.size
     self.h = self.size
     self.w = self.size
     self.jumpingFrames = 0
