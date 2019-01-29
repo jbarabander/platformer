@@ -51,22 +51,22 @@ function Player:draw()
     -- debugging info
     love.graphics.print("y velocity: "..self.yVelocity, 12, 40)
     love.graphics.print("jump called: "..hasJumped, 12, 54)
-    love.graphics.print("position"..self.y, 12, 66)
     if self.collisioner then
         love.graphics.print("collisioner"..self.collisioner.y + self.collisioner.h, 12, 78)
     end
 end
 
+function Player:clearVelocity()
+    self.yVelocity = 0
+end
+
 function Player:clearJump()
     self.jumpingFrames = 0
-    self.yVelocity = 0
+    self:clearVelocity()
     self.hasDoubleJumped = false
     self.hasJumped = false
 end
 
-function Player:clearVelocity()
-    self.yVelocity = 0
-end
 function Player:jump()
     if not self.hasJumped then
         self.hasJumped = true
@@ -107,12 +107,10 @@ function Player:checkCollision()
     local oldY = self.y
     self.x = actualX
     self.y = actualY
-    self.collisioner = nil;
     for i=1,len do
         local other = cols[i].other
         local fromBottom = (other.isFloor or other.isPlatform) and self.y < oldY
         local fromTop = other.isPlatform and self.y == other.y + other.h
-        self.collisioner = other
         if fromBottom then
             self:clearJump()
         elseif fromTop then
