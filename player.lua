@@ -10,6 +10,8 @@ local playerFilter = function(item, other)
         return "slide"
     elseif other.isGoal then
         return "cross"
+    elseif other.isSpike then
+        return "cross"
     end
 end
 
