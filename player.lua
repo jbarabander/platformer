@@ -3,7 +3,7 @@ local math = require "math"
 local world = require "world"
 
 Player = Object:extend()
-local MAX_NUM_OF_JUMPING_FRAMES = 15
+local MAX_NUM_OF_JUMPING_FRAMES = 10
 
 local playerFilter = function(item, other)
     if other.isFloor or other.isPlatform then
@@ -39,53 +39,70 @@ function Player:clear()
     self:clearJump()
 end
 
-function Player:draw()
+function Player:debug()
+    -- debugging info
     local hasJumped
     if self.hasJumped then
         hasJumped = "true"
     else 
         hasJumped = "false"
     end
-    love.graphics.rectangle("line", self.x, self.y, self.size, self.size)
-    love.graphics.setColor(255, 255, 255, 255)
-    -- debugging info
+    local hasDoubleJumped
+    if self.hasDoubleJumped then
+        hasDoubleJumped = "true"
+    else 
+        hasDoubleJumped = "false"
+    end
+    local jumpHeldDown
+    if self.jumpHeldDown then
+        jumpHeldDown = "true"
+    else
+        jumpHeldDown = "false"
+    end
     love.graphics.print("y velocity: "..self.yVelocity, 12, 40)
     love.graphics.print("jump called: "..hasJumped, 12, 54)
-    if self.collisioner then
-        love.graphics.print("collisioner"..self.collisioner.y + self.collisioner.h, 12, 78)
-    end
+    love.graphics.print("double jump called: "..hasDoubleJumped, 12, 66)
+    love.graphics.print("jumping frames: "..self.jumpingFrames, 12, 78)
+    love.graphics.print("jump held down: "..jumpHeldDown, 12, 90)
+end
+
+
+function Player:draw()
+    love.graphics.rectangle("line", self.x, self.y, self.size, self.size)
+    love.graphics.setColor(255, 255, 255, 255)
+    self:debug()
 end
 
 function Player:clearVelocity()
     self.yVelocity = 0
 end
 
-function Player:clearJump()
+function Player:clearJumpingFrames()
     self.jumpingFrames = 0
+end
+
+function Player:clearJump()
+    self:clearJumpingFrames()
     self:clearVelocity()
     self.hasDoubleJumped = false
     self.hasJumped = false
 end
 
 function Player:jump()
-    if not self.hasJumped then
-        self.hasJumped = true
-        self.jumpHeldDown = true
-        self.yVelocity = self.jumpHeight
-    end
+    self.hasJumped = true
+    self.jumpHeldDown = true
+    self.yVelocity = self.jumpHeight
 end
 
 function Player:doubleJump()
-    self.jumpingFrames = 0
+    self:clearJumpingFrames()
     self.yVelocity = self.doubleJumpHeight
     self.hasDoubleJumped = true
 end
 
 function Player:reAddJumpHeight()
     if not self.hasDoubleJumped then
-        -- ick this hacky I will look into why I need this tomorrow
-        self.hasJumped = true
-        self.yVelocity = self.jumpHeight
+        self:jump()
     end
 end
 
